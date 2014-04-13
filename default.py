@@ -31,12 +31,13 @@ cookieFile = os.path.join(addonUserDataFolder, "cookies")
 thumbsDir = os.path.join(addonUserDataFolder, "thumbs")
 username=addon.getSetting("username")
 password=addon.getSetting("password")
-showCovers=addon.getSetting("showCovers") == "true"
 showLatestRemix=addon.getSetting("showLatestRemix") == "true"
 showLatestNoRemix=addon.getSetting("showLatestNoRemix") == "true"
 showPopularRemix=addon.getSetting("showPopularRemix") == "true"
 showPopularNoRemix=addon.getSetting("showPopularNoRemix") == "true"
 showZeitgeist=addon.getSetting("showZeitgeist") == "true"
+forceViewMode = addon.getSetting("forceView") == "true"
+viewID = str(addon.getSetting("viewID"))
 
 if not os.path.isdir(addonUserDataFolder):
     os.mkdir(addonUserDataFolder)
@@ -51,6 +52,7 @@ def index():
         login()
     addDir(translation(30006), "", 'myMain', "")
     addDir(translation(30002), urlMain+"/latest/1?ax=1", 'listSongs', "")
+    addDir(translation(30028), urlMain+"/latest/fresh/1?ax=1", 'listSongs', "")
     if showLatestRemix:
         addDir(translation(30002) + " (" + translation(30010) + ")", urlMain+"/latest/remix/1?ax=1", 'listSongs', "")
     if showLatestNoRemix:
@@ -96,19 +98,18 @@ def listSongs(url):
             title = "[B]*[/B] " + title + " [B]*[/B]"
         match = re.compile('href="/track/'+track['id']+'/.+?background:url\\((.+?)\\)', re.DOTALL).findall(content)
         thumb = ""
-        if match and showCovers:
-            thumb = match[0].replace(".jpg", "_320.jpg")
-            req = urllib2.Request(thumb)
-            try:
-                urllib2.urlopen(req)
-            except:
-                thumb = match[0]
+        if match:
+            thumb = match[0]
+            #Not working for all thumbs
+            #thumb = match[0].replace(".jpg", "_320.jpg")
         addLink(title, url, 'playSong', track['time'], track['id'], track['artist'].encode('utf-8'), track['fav'], thumb, parentUrl)
     match = re.compile('"page_next":"(.+?)"', re.DOTALL).findall(content)
     if match:
         url = match[0].replace("\\","")
         addDir(translation(30001), urlMain+url+"?ax=1", 'listSongs', "")
     xbmcplugin.endOfDirectory(pluginhandle)
+    if forceViewMode:
+        xbmc.executebuiltin('Container.SetViewMode('+viewID+')')
 
 
 def listGenres():

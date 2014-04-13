@@ -23,3 +23,5 @@
 1.0.8
 - Fixed time machine
 - Added thumb on playback
+1.0.9
+- Changed default view and some other stuff

@@ -25,6 +25,7 @@
   <string id="30023">More from artist</string>
   <string id="30024">My Favourites (shuffled)</string>
   <string id="30027">Shuffle category</string>
+  <string id="30028">Freshest</string>
   <string id="30101">Username</string>
   <string id="30102">Password</string>
   <string id="30103">Show "Latest (Remixes)"</string>
@@ -32,5 +33,6 @@
   <string id="30105">Show "Popular: Now (Remixes)"</string>
   <string id="30106">Show "Popular: Now (No Remixes)"</string>
   <string id="30107">Show "Zeitgeist"</string>
-  <string id="30108">Load song covers while browsing</string>
+  <string id="30108">Force View</string>
+  <string id="30109">ViewID</string>
 </strings>
